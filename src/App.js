@@ -5,7 +5,15 @@ import AddTransaction from "./components/AddTransaction";
 import Portfolio from "./components/Portfolio";
 import PortfolioDetails from "./components/PortfolioDetails";
 import TopGainersLosers from "./components/TopGainersLosers";
-import { Container, AppBar, Toolbar, Button } from "@mui/material";
+import {
+  Container,
+  AppBar,
+  Toolbar,
+  Button,
+  CssBaseline,
+  Box,
+} from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -14,6 +22,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database";
+import "@fontsource/poppins/400.css"; // Regular
+import "@fontsource/poppins/500.css"; // Medium
+import "@fontsource/poppins/600.css"; // Semi-bold (fixing the error)
+import "@fontsource/poppins/700.css"; // Bold
 
 // Firebase config (replace with your own from Firebase Console)
 const firebaseConfig = {
@@ -32,6 +44,24 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 const googleProvider = new GoogleAuthProvider();
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Poppins', sans-serif",
+    h2: { fontWeight: 600 },
+    h4: { fontWeight: 600 },
+    h6: { fontWeight: 600 },
+    body1: { fontWeight: 500 },
+    body2: { fontWeight: 500 },
+    button: { fontWeight: 600, textTransform: "none" },
+  },
+  palette: {
+    primary: { main: "#1976d2" },
+    secondary: { main: "#ff5722" },
+    error: { main: "#d32f2f" },
+    success: { main: "#388e3c" },
+  },
+});
 
 function MainContent() {
   const [transactions, setTransactions] = useState([]);
@@ -142,8 +172,8 @@ function MainContent() {
         sx={{
           backgroundColor: "#f4f6f8",
           minHeight: "100vh",
-          padding: "40px",
-          maxWidth: "lg",
+          padding: { xs: "16px", md: "40px" },
+          maxWidth: { xs: "100%", md: "lg" },
         }}
       >
         <AppBar
@@ -153,75 +183,106 @@ function MainContent() {
             boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
           }}
         >
-          <Toolbar>
+          <Toolbar
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              alignItems: { xs: "center", sm: "center" },
+              py: { xs: 1 },
+            }}
+          >
             <span
               style={{
-                flexGrow: 1,
                 fontFamily: "'Poppins', sans-serif",
                 fontWeight: 700,
                 color: "#fff",
-                fontSize: "1.5rem",
+                fontSize: { xs: "1.2rem", sm: "1.5rem" },
+                mb: { xs: 1, sm: 0 },
               }}
             >
               CoinTracker
             </span>
-            <Button
-              color="inherit"
-              component={Link}
-              to="/"
-              sx={{ color: "#fff", "&:hover": { backgroundColor: "#3f51b5" } }}
+            <Box sx={{ flexGrow: 1 }} />{" "}
+            {/* Spacer to push buttons to the right */}
+            <Box
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: { xs: "center", sm: "flex-end" },
+                gap: 1,
+              }}
             >
-              Home
-            </Button>
-            <Button
-              color="inherit"
-              component={Link}
-              to="/add"
-              sx={{ color: "#fff", "&:hover": { backgroundColor: "#3f51b5" } }}
-            >
-              Add Transaction
-            </Button>
-            <Button
-              color="inherit"
-              component={Link}
-              to="/portfolio"
-              sx={{ color: "#fff", "&:hover": { backgroundColor: "#3f51b5" } }}
-            >
-              Portfolio
-            </Button>
-            {user ? (
               <Button
-                variant="contained"
-                onClick={handleLogout}
+                color="inherit"
+                component={Link}
+                to="/"
                 sx={{
-                  backgroundColor: "#ff5722",
                   color: "#fff",
-                  "&:hover": { backgroundColor: "#e64a19" },
-                  borderRadius: "20px",
-                  padding: "6px 16px",
-                  fontWeight: "bold",
-                  fontFamily: "'Poppins', sans-serif",
+                  "&:hover": { backgroundColor: "#3f51b5" },
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
                 }}
               >
-                Logout
+                Home
               </Button>
-            ) : (
               <Button
-                variant="contained"
-                onClick={handleLogin}
+                color="inherit"
+                component={Link}
+                to="/add"
                 sx={{
-                  backgroundColor: "#ff5722",
                   color: "#fff",
-                  "&:hover": { backgroundColor: "#e64a19" },
-                  borderRadius: "20px",
-                  padding: "6px 16px",
-                  fontWeight: "bold",
-                  fontFamily: "'Poppins', sans-serif",
+                  "&:hover": { backgroundColor: "#3f51b5" },
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
                 }}
               >
-                Login
+                Add Transaction
               </Button>
-            )}
+              <Button
+                color="inherit"
+                component={Link}
+                to="/portfolio"
+                sx={{
+                  color: "#fff",
+                  "&:hover": { backgroundColor: "#3f51b5" },
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                Portfolio
+              </Button>
+              {user ? (
+                <Button
+                  variant="contained"
+                  onClick={handleLogout}
+                  sx={{
+                    backgroundColor: "#ff5722",
+                    color: "#fff",
+                    "&:hover": { backgroundColor: "#e64a19" },
+                    borderRadius: "20px",
+                    padding: { xs: "4px 12px", sm: "6px 16px" },
+                    fontWeight: "bold",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: { xs: "0.8rem", sm: "1rem" },
+                  }}
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={handleLogin}
+                  sx={{
+                    backgroundColor: "#ff5722",
+                    color: "#fff",
+                    "&:hover": { backgroundColor: "#e64a19" },
+                    borderRadius: "20px",
+                    padding: { xs: "4px 12px", sm: "6px 16px" },
+                    fontWeight: "bold",
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: { xs: "0.8rem", sm: "1rem" },
+                  }}
+                >
+                  Login
+                </Button>
+              )}
+            </Box>
           </Toolbar>
         </AppBar>
         <Routes>
@@ -257,8 +318,11 @@ function MainContent() {
 
 export default function App() {
   return (
-    <CoinProvider>
-      <MainContent />
-    </CoinProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <CoinProvider>
+        <MainContent />
+      </CoinProvider>
+    </ThemeProvider>
   );
 }

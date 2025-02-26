@@ -12,6 +12,7 @@ import {
   Paper,
   Grid,
   TableSortLabel,
+  Box,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 
@@ -97,14 +98,17 @@ export default function TopGainersLosers() {
         borderRadius: "12px",
         boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
         backgroundColor: "#fff",
+        mt: { xs: 2, md: 0 },
       }}
     >
-      <CardContent sx={{ padding: "20px" }}>
-        <div
-          style={{
+      <CardContent sx={{ padding: { xs: "16px", md: "20px" } }}>
+        <Box
+          sx={{
             display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: { xs: "flex-start", sm: "center" },
+            mb: 2,
           }}
         >
           <Typography
@@ -114,6 +118,7 @@ export default function TopGainersLosers() {
               fontFamily: "'Poppins', sans-serif",
               fontWeight: 600,
               color: "#1a237e",
+              fontSize: { xs: "1.5rem", sm: "2rem" },
             }}
           >
             Crypto Market Movers
@@ -125,13 +130,15 @@ export default function TopGainersLosers() {
                 color: "#424242",
                 fontWeight: 500,
                 fontFamily: "'Poppins', sans-serif",
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+                mt: { xs: 1, sm: 0 },
               }}
             >
               Fear & Greed Index: {fearGreedIndex.value} (
               {fearGreedIndex.value_classification})
             </Typography>
           )}
-        </div>
+        </Box>
         <Grid container spacing={2}>
           <Grid item xs={12} md={6}>
             <Typography
@@ -141,6 +148,7 @@ export default function TopGainersLosers() {
                 color: "#388e3c",
                 fontWeight: 600,
                 fontFamily: "'Poppins', sans-serif",
+                fontSize: { xs: "1rem", sm: "1.25rem" },
               }}
             >
               Top Gainers (24h)
@@ -150,15 +158,17 @@ export default function TopGainersLosers() {
               sx={{
                 borderRadius: "8px",
                 boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+                overflowX: { xs: "auto", sm: "hidden" },
               }}
             >
               <Table
                 size="small"
                 sx={{
                   "& td, & th": {
-                    py: 1.5,
-                    px: 2,
+                    py: { xs: 1, sm: 1.5 },
+                    px: { xs: 1, sm: 2 },
                     fontFamily: "'Poppins', sans-serif",
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
                   },
                 }}
               >
@@ -220,14 +230,16 @@ export default function TopGainersLosers() {
                       }
                     >
                       <TableCell>
-                        <img
-                          src={coin.image}
-                          alt={coin.name}
-                          width="20"
-                          height="20"
-                          style={{ marginRight: 8 }}
-                        />
-                        {coin.name} ({coin.symbol.toUpperCase()})
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <img
+                            src={coin.image}
+                            alt={coin.name}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          <Box component="span" sx={{ ml: { xs: 1, sm: 1.5 } }}>
+                            {coin.name} ({coin.symbol.toUpperCase()})
+                          </Box>
+                        </Box>
                       </TableCell>
                       <TableCell>${coin.current_price.toFixed(2)}</TableCell>
                       <TableCell sx={{ color: "green" }}>
@@ -247,6 +259,7 @@ export default function TopGainersLosers() {
                 color: "#d32f2f",
                 fontWeight: 600,
                 fontFamily: "'Poppins', sans-serif",
+                fontSize: { xs: "1rem", sm: "1.25rem" },
               }}
             >
               Top Losers (24h)
@@ -256,15 +269,17 @@ export default function TopGainersLosers() {
               sx={{
                 borderRadius: "8px",
                 boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+                overflowX: { xs: "auto", sm: "hidden" },
               }}
             >
               <Table
                 size="small"
                 sx={{
                   "& td, & th": {
-                    py: 1.5,
-                    px: 2,
+                    py: { xs: 1, sm: 1.5 },
+                    px: { xs: 1, sm: 2 },
                     fontFamily: "'Poppins', sans-serif",
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
                   },
                 }}
               >
@@ -326,14 +341,16 @@ export default function TopGainersLosers() {
                       }
                     >
                       <TableCell>
-                        <img
-                          src={coin.image}
-                          alt={coin.name}
-                          width="20"
-                          height="20"
-                          style={{ marginRight: 8 }}
-                        />
-                        {coin.name} ({coin.symbol.toUpperCase()})
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <img
+                            src={coin.image}
+                            alt={coin.name}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          <Box component="span" sx={{ ml: { xs: 1, sm: 1.5 } }}>
+                            {coin.name} ({coin.symbol.toUpperCase()})
+                          </Box>
+                        </Box>
                       </TableCell>
                       <TableCell>${coin.current_price.toFixed(2)}</TableCell>
                       <TableCell sx={{ color: "red" }}>

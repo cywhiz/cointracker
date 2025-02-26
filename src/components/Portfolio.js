@@ -11,6 +11,7 @@ import {
   Paper,
   Button,
   IconButton,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -21,14 +22,16 @@ export default function Portfolio({ portfolio, removeCoin, clearPortfolio }) {
         borderRadius: "12px",
         boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
         backgroundColor: "#fff",
+        mt: { xs: 2, md: 0 },
       }}
     >
-      <CardContent sx={{ padding: "20px" }}>
-        <div
-          style={{
+      <CardContent sx={{ padding: { xs: "16px", md: "20px" } }}>
+        <Box
+          sx={{
             display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: { xs: "flex-start", sm: "center" },
             marginBottom: "20px",
           }}
         >
@@ -38,6 +41,7 @@ export default function Portfolio({ portfolio, removeCoin, clearPortfolio }) {
               fontWeight: 600,
               color: "#1a237e",
               margin: 0,
+              fontSize: { xs: "1.5rem", sm: "2rem" },
             }}
           >
             Portfolio
@@ -50,12 +54,15 @@ export default function Portfolio({ portfolio, removeCoin, clearPortfolio }) {
               sx={{
                 borderRadius: "8px",
                 "&:hover": { backgroundColor: "#ffebee" },
+                mt: { xs: 1, sm: 0 },
+                fontSize: { xs: "0.8rem", sm: "1rem" },
+                width: { xs: "100%", sm: "auto" },
               }}
             >
               Clear Portfolio
             </Button>
           )}
-        </div>
+        </Box>
         {portfolio.length === 0 ? (
           <p>No coins in portfolio yet.</p>
         ) : (
@@ -64,15 +71,17 @@ export default function Portfolio({ portfolio, removeCoin, clearPortfolio }) {
             sx={{
               borderRadius: "8px",
               boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+              overflowX: { xs: "auto", sm: "hidden" },
             }}
           >
             <Table
               size="small"
               sx={{
                 "& td, & th": {
-                  py: 1.5,
-                  px: 2,
+                  py: { xs: 1, sm: 1.5 },
+                  px: { xs: 1, sm: 2 },
                   fontFamily: "'Poppins', sans-serif",
+                  fontSize: { xs: "0.75rem", sm: "0.875rem" },
                 },
               }}
             >
@@ -117,14 +126,16 @@ export default function Portfolio({ portfolio, removeCoin, clearPortfolio }) {
                           )
                         }
                       >
-                        <img
-                          src={item.image}
-                          alt={item.coinName}
-                          width="20"
-                          height="20"
-                          style={{ marginRight: 8 }}
-                        />
-                        {item.coinName} ({item.coinSymbol})
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <img
+                            src={item.image}
+                            alt={item.coinName}
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          <Box component="span" sx={{ ml: { xs: 1, sm: 1.5 } }}>
+                            {item.coinName} ({item.coinSymbol})
+                          </Box>
+                        </Box>
                       </TableCell>
                       <TableCell>{item.totalAmount.toFixed(6)}</TableCell>
                       <TableCell>${item.avgCost.toFixed(2)}</TableCell>

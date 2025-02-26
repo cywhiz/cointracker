@@ -9,6 +9,7 @@ import {
   IconButton,
   Box,
   Typography,
+  Switch,
 } from "@mui/material";
 import { useCoins } from "../context/CoinContext";
 import AddIcon from "@mui/icons-material/Add";
@@ -68,15 +69,17 @@ export default function AddTransaction({ addTransaction }) {
         borderRadius: "12px",
         boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
         backgroundColor: "#fff",
+        mt: { xs: 2, md: 0 },
       }}
     >
-      <CardContent sx={{ padding: "20px" }}>
+      <CardContent sx={{ padding: { xs: "16px", md: "20px" } }}>
         <h2
           style={{
             fontFamily: "'Poppins', sans-serif",
             fontWeight: 600,
             color: "#1a237e",
             marginBottom: "20px",
+            fontSize: { xs: "1.5rem", sm: "2rem" },
           }}
         >
           Add Transactions
@@ -86,18 +89,58 @@ export default function AddTransaction({ addTransaction }) {
             key={index}
             sx={{
               display: "flex",
-              gap: 2,
-              mb: 1.5,
-              alignItems: "center",
-              flexWrap: "wrap",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: { xs: 1, sm: 1 },
+              mb: { xs: 1.5, sm: 1 },
+              alignItems: { xs: "stretch", sm: "center" },
               backgroundColor: "#fafafa",
-              padding: "10px",
+              padding: { xs: "6px", sm: "8px" },
               borderRadius: "8px",
-              minWidth: 0,
-              flexDirection: { xs: "column", sm: "row" }, // Stack on small screens, row on larger
-              "& > *": { flexShrink: 0 }, // Prevent shrinking of children
             }}
           >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+                order: { sm: -1 },
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: "0.7rem", sm: "0.8rem" },
+                  color: t.type === "buy" ? "#388e3c" : "#d32f2f",
+                }}
+              >
+                {t.type === "buy" ? "Buy" : "Sell"}
+              </Typography>
+              <Switch
+                checked={t.type === "buy"}
+                onChange={(e) =>
+                  handleTransactionChange(
+                    index,
+                    "type",
+                    e.target.checked ? "buy" : "sell"
+                  )
+                }
+                sx={{
+                  "& .MuiSwitch-switchBase": {
+                    color: "#d32f2f",
+                    "&.Mui-checked": {
+                      color: "#388e3c",
+                    },
+                  },
+                  "& .MuiSwitch-track": {
+                    backgroundColor: "#d32f2f",
+                    opacity: 0.5,
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: "#388e3c",
+                    opacity: 0.5,
+                  },
+                }}
+              />
+            </Box>
             <Autocomplete
               options={coins}
               getOptionLabel={(option) =>
@@ -111,14 +154,14 @@ export default function AddTransaction({ addTransaction }) {
                 <TextField
                   {...params}
                   label="Select Coin"
+                  size="small" // Added
                   sx={{
-                    minWidth: 240, // Minimum width to ensure it doesn’t shrink too much
-                    width: { xs: "100%", sm: 240 },
+                    width: { xs: "100%", sm: 200 },
                     "& .MuiOutlinedInput-root": { borderRadius: "8px" },
                   }}
                 />
               )}
-              sx={{ width: { xs: "100%", sm: 240 } }}
+              sx={{ width: { xs: "100%", sm: 200 } }}
             />
             <TextField
               label="Amount"
@@ -127,9 +170,9 @@ export default function AddTransaction({ addTransaction }) {
               onChange={(e) =>
                 handleTransactionChange(index, "amount", e.target.value)
               }
+              size="small" // Added
               sx={{
-                minWidth: 120,
-                width: { xs: "100%", sm: 120 },
+                width: { xs: "100%", sm: 80 },
                 "& .MuiOutlinedInput-root": { borderRadius: "8px" },
               }}
             />
@@ -140,75 +183,62 @@ export default function AddTransaction({ addTransaction }) {
               onChange={(e) =>
                 handleTransactionChange(index, "price", e.target.value)
               }
+              size="small" // Added
               sx={{
-                minWidth: 120,
-                width: { xs: "100%", sm: 120 },
+                width: { xs: "100%", sm: 80 },
                 "& .MuiOutlinedInput-root": { borderRadius: "8px" },
               }}
             />
             <Typography
               variant="body2"
               sx={{
-                minWidth: 100,
-                width: { xs: "100%", sm: 100 },
+                width: { xs: "100%", sm: 80 },
                 color: "#424242",
                 fontWeight: 500,
                 fontFamily: "'Poppins', sans-serif",
+                fontSize: { xs: "0.7rem", sm: "0.8rem" },
               }}
             >
               Current: $
               {(t.coin && coinData[t.coin.id]?.current_price?.toFixed(2)) ||
                 "N/A"}
             </Typography>
-            <Button
-              variant={t.type === "buy" ? "contained" : "outlined"}
-              color="success"
-              onClick={() => handleTransactionChange(index, "type", "buy")}
-              sx={{
-                py: 0.5,
-                minWidth: 60,
-                borderRadius: "8px",
-                "&:hover": { backgroundColor: "#2e7d32" },
-              }}
-            >
-              Buy
-            </Button>
-            <Button
-              variant={t.type === "sell" ? "contained" : "outlined"}
-              color="error"
-              onClick={() => handleTransactionChange(index, "type", "sell")}
-              sx={{
-                py: 0.5,
-                minWidth: 60,
-                borderRadius: "8px",
-                "&:hover": { backgroundColor: "#c62828" },
-              }}
-            >
-              Sell
-            </Button>
             {transactions.length > 1 && (
               <IconButton
                 color="error"
                 onClick={() => handleRemoveTransactionField(index)}
                 size="small"
-                sx={{ "&:hover": { backgroundColor: "#ffebee" } }}
+                sx={{
+                  "&:hover": { backgroundColor: "#ffebee" },
+                  ml: { sm: "auto" },
+                }}
               >
                 <DeleteIcon fontSize="small" />
               </IconButton>
             )}
           </Box>
         ))}
-        <Box sx={{ mt: 1 }}>
+        <Box
+          sx={{
+            mt: 1,
+            display: "flex",
+            gap: 1,
+            flexDirection: { xs: "column", sm: "row" },
+          }}
+        >
           <Button
             variant="outlined"
             startIcon={<AddIcon />}
             onClick={handleAddTransactionField}
             sx={{
-              mr: 1,
+              mr: { sm: 1 },
               borderRadius: "8px",
               color: "#1976d2",
               borderColor: "#1976d2",
               "&:hover": { backgroundColor: "#e3f2fd" },
+              fontSize: { xs: "0.8rem", sm: "1rem" },
+              width: { xs: "100%", sm: "auto" },
+              py: "4px",
             }}
           >
             Add Another
@@ -220,6 +250,9 @@ export default function AddTransaction({ addTransaction }) {
             sx={{
               borderRadius: "8px",
               "&:hover": { backgroundColor: "#1565c0" },
+              fontSize: { xs: "0.8rem", sm: "1rem" },
+              width: { xs: "100%", sm: "auto" },
+              py: "4px",
             }}
           >
             Submit All
@@ -230,6 +263,7 @@ export default function AddTransaction({ addTransaction }) {
           autoHideDuration={3000}
           onClose={() => setMessage("")}
           message={message}
+          sx={{ width: { xs: "90%", sm: "auto" } }}
         />
       </CardContent>
     </Card>
