@@ -96,6 +96,7 @@ export default function AddTransaction({ addTransaction }) {
               backgroundColor: "#fafafa",
               padding: { xs: "6px", sm: "8px" },
               borderRadius: "8px",
+              flexWrap: { sm: "nowrap" }, // Prevent wrapping on desktop
             }}
           >
             <Box
@@ -154,14 +155,14 @@ export default function AddTransaction({ addTransaction }) {
                 <TextField
                   {...params}
                   label="Select Coin"
-                  size="small" // Added
+                  size="small"
                   sx={{
-                    width: { xs: "100%", sm: 200 },
+                    minWidth: { xs: "100%", sm: 300 },
                     "& .MuiOutlinedInput-root": { borderRadius: "8px" },
                   }}
                 />
               )}
-              sx={{ width: { xs: "100%", sm: 200 } }}
+              sx={{ minWidth: { xs: "100%", sm: 300 } }}
             />
             <TextField
               label="Amount"
@@ -170,9 +171,9 @@ export default function AddTransaction({ addTransaction }) {
               onChange={(e) =>
                 handleTransactionChange(index, "amount", e.target.value)
               }
-              size="small" // Added
+              size="small"
               sx={{
-                width: { xs: "100%", sm: 80 },
+                minWidth: { xs: "100%", sm: 60 },
                 "& .MuiOutlinedInput-root": { borderRadius: "8px" },
               }}
             />
@@ -183,16 +184,16 @@ export default function AddTransaction({ addTransaction }) {
               onChange={(e) =>
                 handleTransactionChange(index, "price", e.target.value)
               }
-              size="small" // Added
+              size="small"
               sx={{
-                width: { xs: "100%", sm: 80 },
+                minWidth: { xs: "100%", sm: 60 },
                 "& .MuiOutlinedInput-root": { borderRadius: "8px" },
               }}
             />
             <Typography
               variant="body2"
               sx={{
-                width: { xs: "100%", sm: 80 },
+                minWidth: { xs: "100%", sm: 120 },
                 color: "#424242",
                 fontWeight: 500,
                 fontFamily: "'Poppins', sans-serif",
@@ -213,7 +214,7 @@ export default function AddTransaction({ addTransaction }) {
                   ml: { sm: "auto" },
                 }}
               >
-                <DeleteIcon fontSize="small" />
+                <DeleteIcon />
               </IconButton>
             )}
           </Box>
